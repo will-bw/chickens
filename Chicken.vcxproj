@@ -128,9 +128,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyChicken.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="chicken.h" />
     <ClInclude Include="EasyXPng.h" />
+    <ClInclude Include="EnemyChicken.h" />
+    <ClInclude Include="MyChicken.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
