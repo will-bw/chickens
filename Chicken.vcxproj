@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyChicken.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyChicken.cpp" />
   </ItemGroup>

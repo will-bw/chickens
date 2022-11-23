@@ -1,13 +1,14 @@
 #pragma once
 #include <graphics.h>
 
-#define WIN_HEIGHT 100 //窗口高度
-#define WIN_WIDTH 100   //窗口宽度
+#define WIN_HEIGHT 900 //窗口高度
+#define WIN_WIDTH 900   //窗口宽度
 
 
-static int score = 0; //得分
-static bool state = true; //游戏进行状态
-class util
+static int score; //得分
+static bool state; //游戏进行状态
+static int myLevel;//我方小鸡的等级
+class utils
 {
 public:
 	static IMAGE enemy_chicken[5]; //敌方小鸡的图片
@@ -26,6 +27,9 @@ public:
 			_stprintf_s(filename, _T("./images/mychicken/chicken%d.png"), i);
 			loadimage(&enemy_chicken[i], filename);
 		}
-		loadimage(&im_bk,_T("./images/bk.png"));
+		loadimage(&im_bk,_T("./images/jpg"));
+		score=0;
+		state=true;
+		myLevel=0;
 	}
 };

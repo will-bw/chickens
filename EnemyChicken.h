@@ -15,6 +15,8 @@ public:
 		set_y(y);
 	}
 
+	void move();
 private:
 	bool isRight;
+	int speed = 4;
 };

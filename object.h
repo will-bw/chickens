@@ -15,10 +15,10 @@ public:
 		//对象的宽度和高度由图片尺寸来定
 	}
 
-	bool intersect(object* object)
+	bool intersect(object& object)
 	{
-		return x <= object->x1() + object->width1() && x + width >= object->x && y <= object->y1() + object->height1() && y
-			+ height >= object->y1();
+		return x <= object.x1() + object.width1() && x + width >= object.x && y <= object.y1() + object.height1() && y
+			+ height >= object.y1();
 	}
 
 	void move();
