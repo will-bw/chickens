@@ -128,8 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EnemyChicken.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="MyChicken.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chicken.h" />
@@ -137,7 +137,7 @@
     <ClInclude Include="EnemyChicken.h" />
     <ClInclude Include="MyChicken.h" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="util.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

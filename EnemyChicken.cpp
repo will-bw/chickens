@@ -3,7 +3,7 @@
 void EnemyChicken::move()
 {
 	if (isRight)
-		set_x(x1() + speed);
+		x+=speed;
 	else
-		set_x(x1() - speed);
+		x-=speed;
 }
