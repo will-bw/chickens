@@ -10,6 +10,4 @@ public:
 	}
 
 	void move();
-private:
-	int speed = 4;
 };

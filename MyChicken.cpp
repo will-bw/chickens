@@ -12,9 +12,9 @@ void MyChicken::move()
 		if (GetAsyncKeyState(VK_DOWN) && y < WIN_HEIGHT - height) //Down
 			y+=8;
 		if (GetAsyncKeyState(VK_LEFT) && x > 0) //Left
-			{x-=6;isRight=0;}
+			{x-=9;isRight=0;}
 		if (GetAsyncKeyState(VK_RIGHT) && x < WIN_WIDTH - width) //Right
-			{x+=6;isRight=1;}
+			{x+=9;isRight=1;}
 	}
 }
 

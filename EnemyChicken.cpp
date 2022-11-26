@@ -3,7 +3,7 @@
 void EnemyChicken::move()
 {
 	if (isRight)
-		x+=speed;
+		x+=6;
 	else
-		x-=speed;
+		x-=6;
 }

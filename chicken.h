@@ -13,6 +13,4 @@ public:
 	void move();
 public:
 	int isRight = 0;//方向是否向右
-	bool isAlive;//是否活着
-	int level;//等级
 };

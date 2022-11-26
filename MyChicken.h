@@ -7,7 +7,7 @@ public:
 	{
 	}
 	void move();
-private:
+public:
 	int life=10;
 	int score = 0;
 };

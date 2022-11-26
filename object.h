@@ -30,4 +30,6 @@ public:
 	IMAGE image; //贴图
 	int x, y; //坐标
 	int width, height; //高度宽度
+	int level;//等级
+	bool isAlive =true;//是否活着
 };

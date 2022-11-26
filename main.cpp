@@ -4,12 +4,12 @@
 void init()
 {
 	TCHAR filename[50];
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		_stprintf_s(filename, _T("./images/enemychicken/left/chicken%d.png"), i);
 		loadimage(&enemy_chicken[0][i], filename);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		_stprintf_s(filename, _T("./images/enemychicken/right/chicken%d.png"), i);
 		loadimage(&enemy_chicken[1][i], filename);
@@ -24,40 +24,147 @@ void init()
 		_stprintf_s(filename, _T("./images/mychicken/right/chicken%d.png"), i);
 		loadimage(&player[1][i], filename);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		_stprintf_s(filename, _T("./images/nums/0%d.png"), i);
 		loadimage(&nums[i], filename);
 	}
 	loadimage(&im_bk, _T("./images/bk.jpg"));
-	state = true;//游戏开始
-	srand((unsigned int)time(NULL));//随机数种子初始化
-	initgraph(WIN_WIDTH, WIN_HEIGHT);//开窗口
+	state = true; //游戏开始
+	srand((unsigned int)time(NULL)); //随机数种子初始化
+	initgraph(WIN_WIDTH, WIN_HEIGHT); //开窗口
 }
 
-void draw(object& obj)
+void draw(EnemyChicken& obj)
 {
+	putimagePng(obj.x, obj.y, &(obj.image));
+	putimagePng(obj.x + obj.width / 2 - nums[obj.level].getwidth() / 2, obj.y - nums[obj.level].getheight(),
+	            &nums[obj.level]);
+}
+
+void draw(MyChicken& obj)
+{
+	putimagePng(obj.x, obj.y, &(obj.image));
+	putimagePng(obj.x + obj.width / 2 - nums[obj.level].getwidth() / 2, obj.y - nums[obj.level].getheight(),
+	            &nums[obj.level+1]);
+}
+
+void draw()
+{
+	for (auto it = enemys.begin(); it != enemys.end();)
+	{
+		if (it->isAlive)
+		{
+			draw(*it);
+			it++;
+		}
+		else
+		{
+			it = enemys.erase(it);
+		}
+	}
+}
+
+void enemy_move()
+{
+	for (auto it = enemys.begin(); it != enemys.end(); it++)
+	{
+		it->move();
+	}
+}
+
+void crash_check(MyChicken& me)
+{
+	for (auto it = enemys.begin(); it != enemys.end(); it++)
+	{
+		if (me.intersect(*it))
+		{
+			if (me.level < it->level)
+			{
+				me.life--;
+				it->isAlive = false;
+			}
+			else
+			{
+				it->isAlive = false;
+				me.score += it->level + 1;
+			}
+		}
+	}
+}
+
+void create_enemy()
+{
+	if (flush_count >= 20)
+	{
+		flush_count = 0; //1秒生成一个敌方小鸡
+		int isright = rand() % 2;
+		int lev = rand() % 5;
+		int y = (100 * (rand() % 9)) + 50;
+		int x = isright ? 0 - enemy_chicken[isright][lev].getwidth() : WIN_WIDTH;
+		enemys.push_back(EnemyChicken(enemy_chicken[isright][lev], x, y, isright, lev));
+	}
+}
+
+void state_check(MyChicken& me)
+{
+	if (me.score >= 10 && me.score < 20)
+		me.level = 1;
+	else if (me.score >= 20 && me.score <= 35)
+		me.level = 2;
+	else if (me.score > 35)
+		me.level = 3;
+
+	if (me.score >= 100)//100分为赢
+	{
+		isover = true;
+		win = true;
+	}
+	if(me.life<=0)
+	{
+		isover=true;
+		win=false;
+	}
+}
+
+void gameover()
+{
+	if(isover)
+	{
+		state=false;//循环结束标志
+		// if(win)
+		// else
 	
-	cleardevice();
-	
-	putimagePng(obj.x,obj.y,&(obj.image));
+	}
 }
 
 void update(MyChicken& me)
 {
-	putimage(0, 0, &im_bk);//背景
-	draw(me);
-	me.image=player[me.isRight][me.level];//更新我的图片
+	cleardevice();
+	create_enemy(); //开始生成敌方小鸡
+
+	BeginBatchDraw(); //开始绘图
+	putimage(0, 0, &im_bk); //绘制背景
+	draw(me); //绘制我方小鸡
+	draw(); //绘制敌方小鸡
+	EndBatchDraw(); //结束绘图
+
+	me.move(); //我方小鸡移动
+	enemy_move(); //敌方小鸡移动
+	me.image = player[me.isRight][me.level]; //更新我的图片
+	crash_check(me);
+
+	Sleep(50);
+	flush_count++;
 }
 
 int main()
 {
 	init();
-	MyChicken me(player[1][3],WIN_WIDTH / 2, WIN_HEIGHT / 2,1,3);//初始化我方小鸡	
-	while(state)
+	MyChicken me(player[1][0],WIN_WIDTH / 2, WIN_HEIGHT / 2, 1, 0); //初始化我方小鸡	
+	while (state)
 	{
-		draw(me);
-		me.move();
+		update(me);
 	}
 
 	_getch();
