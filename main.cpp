@@ -30,7 +30,7 @@ void init()
 		_stprintf_s(filename, _T("./images/nums/0%d.png"), i);
 		loadimage(&nums[i], filename);
 	}
-	loadimage(&im_bk, _T("./images/bk.jpg"));
+	loadimage(&im_bk, _T("./images/bk1.jpg"));
 	mciSendString(_T("open ./music/xianjian.mp3 alias xj"), NULL, 0, NULL);
 	//音乐
 	mciSendString(_T("play xj repeat"), NULL, 0, NULL);
@@ -43,7 +43,7 @@ void init()
 
 void draw(EnemyChicken& obj)
 {
-	putimagePng(obj.x, obj.y, &(obj.image));
+	putimagePng(obj.x-(obj.image.getwidth()-obj.width)/2, obj.y, &(obj.image));
 	putimagePng(obj.x + obj.width / 2 - nums[obj.level].getwidth() / 2, obj.y - nums[obj.level].getheight(),
 	            &nums[obj.level]);
 }
@@ -107,12 +107,12 @@ void crash_check(MyChicken& me)
 
 void create_enemy()
 {
-	if (flush_count >= 10)
+	if (flush_count >= 15)
 	{
 		flush_count = 0; //半秒生成一个敌方小鸡
 		int isright = rand() % 2;
 		int lev = rand() % 5;
-		int y = (100 * (rand() % 9)) + 50;
+		int y = (100 * (rand() % 6));
 		int x = isright ? 0 - enemy_chicken[isright][lev].getwidth() : WIN_WIDTH;
 		enemys.push_back(EnemyChicken(enemy_chicken[isright][lev], x, y, isright, lev));
 	}

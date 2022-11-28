@@ -2,8 +2,8 @@
 #include<graphics.h>
 #include<conio.h>
 #include<time.h>
-#define WIN_HEIGHT 900 //窗口高度
-#define WIN_WIDTH 900   //窗口宽度
+#define WIN_HEIGHT 800 //窗口高度
+#define WIN_WIDTH 1600   //窗口宽度
 class object
 {
 public:
@@ -12,9 +12,6 @@ public:
 		this->image = image;
 		this->x = x;
 		this->y = y;
-		this->width = image.getwidth();
-		this->height = image.getheight();
-		//对象的宽度和高度由图片尺寸来定
 	}
 
 
