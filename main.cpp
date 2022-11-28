@@ -41,6 +41,9 @@ void init()
 	initgraph(WIN_WIDTH, WIN_HEIGHT); //开窗口
 }
 
+/*注意这里的贴图坐标判定，我写在类里面的坐标和width和height实际上是原来的小鸡的坐标和宽和高，
+不算上剑，是为了提高碰撞判定的精确度，但是贴图的坐标是整张图的坐标，所以要在对象的坐标的基础上进行计算来进行绘图。*/
+
 void draw(EnemyChicken& obj)
 {
 	putimagePng(obj.x - (obj.image.getwidth() - obj.width) / 2, obj.y, &(obj.image));
@@ -48,12 +51,15 @@ void draw(EnemyChicken& obj)
 	            &nums[obj.level]);
 }
 
+
 void draw(MyChicken& obj)
 {
-	putimagePng(obj.x, obj.y, &(obj.image));
+	putimagePng(obj.x- (obj.image.getwidth() - obj.width) / 2, obj.y, &(obj.image));
 	putimagePng(obj.x + obj.width / 2 - nums[obj.level].getwidth() / 2, obj.y - nums[obj.level].getheight(),
 	            &nums[obj.level + 1]);
 }
+
+
 
 void draw()
 {
@@ -149,6 +155,20 @@ void gameover()
 	}
 }
 
+void text_show(MyChicken& me)
+{
+	TCHAR s[20]; //血量显示
+	_stprintf_s(s, _T("Lives:%d"), me.life);
+	settextcolor(WHITE);
+	settextstyle(30, 0, _T("Arial"));
+	outtextxy(50, 30, s);
+	// TCHAR s1[20]; //得分显示
+	// settextcolor(WHITE);
+	// settextstyle(30, 0, _T("Arial"));
+	_stprintf_s(s, _T("Score:%d"), me.score);
+	outtextxy(1500, 15, s);
+}
+
 void update(MyChicken& me)
 {
 	cleardevice();
@@ -158,6 +178,7 @@ void update(MyChicken& me)
 	putimage(0, 0, &im_bk); //绘制背景
 	draw(me); //绘制我方小鸡
 	draw(); //绘制敌方小鸡
+	text_show(me);
 	EndBatchDraw(); //结束绘图
 
 	me.move(); //我方小鸡移动

@@ -28,3 +28,4 @@ void crash_check(MyChicken& me);//碰撞判定
 void create_enemy();//敌方小鸡生成
 void state_check(MyChicken& me);//状态检测
 void gameover();//结束处理
+void text_show(MyChicken& me);

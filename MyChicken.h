@@ -28,6 +28,7 @@ public:
 		}
 	}
 	void move();
+	void set_wh();
 public:
 	int life=10;
 	int score = 0;
