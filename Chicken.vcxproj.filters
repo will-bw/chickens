@@ -48,4 +48,9 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="music\xianjian.mp3">
+      <Filter>资源文件</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

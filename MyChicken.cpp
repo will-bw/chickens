@@ -16,5 +16,7 @@ void MyChicken::move()
 		if (GetAsyncKeyState(VK_RIGHT) && x < WIN_WIDTH - width) //Right
 			{x+=9;isRight=1;}
 	}
+	width=image.getwidth();
+	height=image.getheight();
 }
 

@@ -3,6 +3,7 @@
 #include "MyChicken.h"
 #include "EnemyChicken.h"
 #include<vector>
+#pragma comment(lib,"Winmm.lib")
 using namespace std;
 
 

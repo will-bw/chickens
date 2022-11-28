@@ -1,6 +1,7 @@
 #include"main.h"
 #include "EasyXPng.h"
 
+
 void init()
 {
 	TCHAR filename[50];
@@ -30,6 +31,11 @@ void init()
 		loadimage(&nums[i], filename);
 	}
 	loadimage(&im_bk, _T("./images/bk.jpg"));
+	mciSendString(_T("open ./music/xianjian.mp3 alias xj"), NULL, 0, NULL);
+	//音乐
+	mciSendString(_T("play xj repeat"), NULL, 0, NULL);
+
+
 	state = true; //游戏开始
 	srand((unsigned int)time(NULL)); //随机数种子初始化
 	initgraph(WIN_WIDTH, WIN_HEIGHT); //开窗口
@@ -46,7 +52,7 @@ void draw(MyChicken& obj)
 {
 	putimagePng(obj.x, obj.y, &(obj.image));
 	putimagePng(obj.x + obj.width / 2 - nums[obj.level].getwidth() / 2, obj.y - nums[obj.level].getheight(),
-	            &nums[obj.level+1]);
+	            &nums[obj.level + 1]);
 }
 
 void draw()
@@ -83,11 +89,17 @@ void crash_check(MyChicken& me)
 			{
 				me.life--;
 				it->isAlive = false;
+				mciSendString(_T("close a"), NULL, 0, NULL);
+				mciSendString(_T("open ./music/a.mp3 alias a"), NULL, 0, NULL);
+				mciSendString(_T("play a"), NULL, 0, NULL);
 			}
 			else
 			{
 				it->isAlive = false;
 				me.score += it->level + 1;
+				mciSendString(_T("close j"), NULL, 0, NULL);
+				mciSendString(_T("open ./music/j.mp3 alias j"), NULL, 0, NULL);
+				mciSendString(_T("play j"), NULL, 0, NULL);
 			}
 		}
 	}
@@ -95,9 +107,9 @@ void crash_check(MyChicken& me)
 
 void create_enemy()
 {
-	if (flush_count >= 20)
+	if (flush_count >= 10)
 	{
-		flush_count = 0; //1秒生成一个敌方小鸡
+		flush_count = 0; //半秒生成一个敌方小鸡
 		int isright = rand() % 2;
 		int lev = rand() % 5;
 		int y = (100 * (rand() % 9)) + 50;
@@ -108,33 +120,32 @@ void create_enemy()
 
 void state_check(MyChicken& me)
 {
-	if (me.score >= 10 && me.score < 20)
+	if (me.score >= 2 && me.score < 10)
 		me.level = 1;
-	else if (me.score >= 20 && me.score <= 35)
+	else if (me.score >= 10 && me.score <= 20)
 		me.level = 2;
-	else if (me.score > 35)
+	else if (me.score > 20)
 		me.level = 3;
 
-	if (me.score >= 100)//100分为赢
+	if (me.score >= 100) //100分为赢
 	{
 		isover = true;
 		win = true;
 	}
-	if(me.life<=0)
+	if (me.life <= 0)
 	{
-		isover=true;
-		win=false;
+		isover = true;
+		win = false;
 	}
 }
 
 void gameover()
 {
-	if(isover)
+	if (isover)
 	{
-		state=false;//循环结束标志
+		state = false; //循环结束标志
 		// if(win)
 		// else
-	
 	}
 }
 
@@ -153,7 +164,7 @@ void update(MyChicken& me)
 	enemy_move(); //敌方小鸡移动
 	me.image = player[me.isRight][me.level]; //更新我的图片
 	crash_check(me);
-
+	state_check(me);
 	Sleep(50);
 	flush_count++;
 }
@@ -161,7 +172,7 @@ void update(MyChicken& me)
 int main()
 {
 	init();
-	MyChicken me(player[1][0],WIN_WIDTH / 2, WIN_HEIGHT / 2, 1, 0); //初始化我方小鸡	
+	MyChicken me(player[1][0],WIN_WIDTH / 2, WIN_HEIGHT / 2, 1, 0); //初始化我方小鸡
 	while (state)
 	{
 		update(me);
