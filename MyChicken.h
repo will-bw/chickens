@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include "chicken.h"
+#include "Bullet.h"
 class MyChicken :public chicken
 {
 public:
+	MyChicken() = default;
+
 	MyChicken(IMAGE image,int x,int y ,int isright ,int lev):chicken(image,x,y,isright,lev)
 	{
 		switch (lev)
@@ -29,7 +32,11 @@ public:
 	}
 	void move();
 	void set_wh();
+	void shoot();
 public:
-	int life=10;
+	int life=MY_LIFE;
 	int score = 0;
+	int bullet_cnt=0;//还剩的子弹数量
+	vector<Bullet> bullets;
+
 };

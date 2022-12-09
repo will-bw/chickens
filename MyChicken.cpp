@@ -15,6 +15,8 @@ void MyChicken::move()
 			{x-=9;isRight=0;}
 		if (GetAsyncKeyState(VK_RIGHT) && x < WIN_WIDTH - width) //Right
 			{x+=9;isRight=1;}
+		if(GetAsyncKeyState(32))//空格
+			shoot();
 	}
 	set_wh();
 }
@@ -42,5 +44,19 @@ void MyChicken::set_wh()
 		default:
 			break;
 		}
+}
+
+void MyChicken::shoot()
+{
+	if(isRight)
+	{
+		Bullet bu(double(x+width-BULLET_WIDTH),double(y+35),double(8),double(-15));
+		bullets.push_back(bu);
+	}
+	else
+	{
+		Bullet bu(double(x),double(y+35),double(-8),double(-15));
+		bullets.push_back(bu);
+	}
 }
 

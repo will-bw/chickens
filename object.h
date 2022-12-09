@@ -2,16 +2,29 @@
 #include<graphics.h>
 #include<conio.h>
 #include<time.h>
+#include<vector>
+
 #define WIN_HEIGHT 800 //窗口高度
 #define WIN_WIDTH 1600   //窗口宽度
+#define BOSS_LIFE 30	//boss生命值
+#define MY_LIFE 10  //我的生命值
+#define BULLET_WIDTH 25
+#define BULLET_HEIGHT 25
+
+using namespace std;
+
+
 class object
 {
 public:
+	object() = default;
 	object(IMAGE& image, int x, int y)
 	{
 		this->image = image;
 		this->x = x;
 		this->y = y;
+		this->width=image.getwidth();
+		this->height=image.getheight();
 	}
 
 

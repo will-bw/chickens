@@ -4,6 +4,7 @@
 class chicken : public object
 {
 public:
+	chicken() = default;
 
 	chicken(IMAGE& image, int x, int y, int isRight,int level): object(image, x, y)
 	{

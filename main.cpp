@@ -30,14 +30,18 @@ void init()
 		_stprintf_s(filename, _T("./images/nums/0%d.png"), i);
 		loadimage(&nums[i], filename);
 	}
-	loadimage(&im_bk, _T("./images/bk1.jpg"));
+	loadimage(&im_bk, _T("./images/bk2.jpg"));
+	loadimage(&im_boss, _T("./images/boss.png"));
+	loadimage(&im_bullet, _T("./images/basketball.png"));
 	mciSendString(_T("open ./music/xianjian.mp3 alias xj"), NULL, 0, NULL);
 	//音乐
 	mciSendString(_T("play xj repeat"), NULL, 0, NULL);
 
 
-	state = true; //游戏开始
+	state = 1; //游戏开始
 	srand((unsigned int)time(NULL)); //随机数种子初始化
+	me =MyChicken(player[1][0],WIN_WIDTH / 2, WIN_HEIGHT / 2, 1, 0);
+	boss=Boss(im_boss,20,20,1,5);
 	initgraph(WIN_WIDTH, WIN_HEIGHT); //开窗口
 }
 
@@ -63,7 +67,9 @@ void draw(MyChicken& obj)
 
 void draw()
 {
-	for (auto it = enemys.begin(); it != enemys.end();)
+	putimage(0, 0, &im_bk); //绘制背景
+	draw(me); //绘制我方小鸡
+	for (auto it = enemys.begin(); it != enemys.end();)//绘制敌方小鸡
 	{
 		if (it->isAlive && it->x >= -200 && it->x <= WIN_WIDTH + 200)
 		{
@@ -75,6 +81,13 @@ void draw()
 			it = enemys.erase(it);
 		}
 	}
+	putimagePng(10,10,&im_bullet);
+	// boss.shoot();
+	bullet_show(me);
+	bullet_show(boss);
+	putimagePng(boss.x,boss.y,&boss.image);//绘制boss
+	text_show();
+	gameover();
 }
 
 void enemy_move()
@@ -85,7 +98,7 @@ void enemy_move()
 	}
 }
 
-void crash_check(MyChicken& me)
+void crash_check()
 {
 	for (auto it = enemys.begin(); it != enemys.end(); it++)
 	{
@@ -124,7 +137,7 @@ void create_enemy()
 	}
 }
 
-void state_check(MyChicken& me)
+void state_check()
 {
 	if (me.score >= 2 && me.score < 10)
 		me.level = 1;
@@ -149,43 +162,76 @@ void gameover()
 {
 	if (isover)
 	{
-		state = false; //循环结束标志
+		state = 4; //游戏结束
 		// if(win)
 		// else
 	}
 }
 
-void text_show(MyChicken& me)
+void text_show()
 {
 	TCHAR s[20]; //血量显示
 	_stprintf_s(s, _T("Lives:%d"), me.life);
-	settextcolor(WHITE);
+	settextcolor(GREEN);
 	settextstyle(30, 0, _T("Arial"));
-	outtextxy(50, 30, s);
+	setbkmode(TRANSPARENT);//设置字体背景透明
+	outtextxy(10, 30, s);
 	// TCHAR s1[20]; //得分显示
 	// settextcolor(WHITE);
 	// settextstyle(30, 0, _T("Arial"));
 	_stprintf_s(s, _T("Score:%d"), me.score);
-	outtextxy(1500, 15, s);
+	outtextxy(1400, 30, s);
 }
 
-void update(MyChicken& me)
+void bullet_show(MyChicken& me_chicken)
+{
+	for (auto it = me_chicken.bullets.begin();it!=me_chicken.bullets.end();)
+	{
+		if (it->isAlive && it->x >= -200 && it->x <= WIN_WIDTH + 200)
+		{
+			putimagePng(it->x,it->y,&im_bullet	);
+			it->move();
+			it++;
+		}
+		else
+		{
+			it = me_chicken.bullets.erase(it);
+		}
+	}
+}
+
+void bullet_show(Boss& boss_bu)
+{
+	for (auto it = boss_bu.bullets.begin();it!=boss_bu.bullets.end();)
+	{
+		if (it->isAlive && it->x >= -200 && it->x <= WIN_WIDTH + 200)
+		{
+			putimagePng(it->x,it->y,&im_bullet	);
+			it->move();
+			it++;
+		}
+		else
+		{
+			it = boss_bu.bullets.erase(it);
+		}
+	}
+}
+
+void update()
 {
 	cleardevice();
 	create_enemy(); //开始生成敌方小鸡
 
 	BeginBatchDraw(); //开始绘图
-	putimage(0, 0, &im_bk); //绘制背景
-	draw(me); //绘制我方小鸡
-	draw(); //绘制敌方小鸡
-	text_show(me);
+	draw(); //绘制
 	EndBatchDraw(); //结束绘图
 
 	me.move(); //我方小鸡移动
 	enemy_move(); //敌方小鸡移动
+	boss.move();//boss移动
 	me.image = player[me.isRight][me.level]; //更新我的图片
-	crash_check(me);
-	state_check(me);
+	crash_check();
+	state_check();
 	Sleep(50);
 	flush_count++;
 }
@@ -193,10 +239,9 @@ void update(MyChicken& me)
 int main()
 {
 	init();
-	MyChicken me(player[1][0],WIN_WIDTH / 2, WIN_HEIGHT / 2, 1, 0); //初始化我方小鸡
 	while (state)
 	{
-		update(me);
+		update();
 	}
 
 	_getch();

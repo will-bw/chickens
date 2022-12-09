@@ -32,7 +32,9 @@ public:
 		default:
 			break;
 		}
+		speed=4+rand()%5;//获得随机速度
 	}
 
 	void move();
+	int speed;
 };
