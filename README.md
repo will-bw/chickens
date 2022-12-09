@@ -4,7 +4,7 @@
 
 ​	我开发时是用的VS2022，用vscode或者其他IDE也行但是都得先把easyx装上。
 
-​	VS装easyx比较简单，下载地址：[easyx官网]([EasyX Graphics Library for C++](https://easyx.cn/))
+​	VS装easyx比较简单，下载地址：[EasyX Graphics Library for C++](https://easyx.cn/)
 
 ​	下载后安装到对应的VS版本即可
 
