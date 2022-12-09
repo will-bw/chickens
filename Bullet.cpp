@@ -6,3 +6,9 @@ void Bullet::move()
 	y+=speed_y;
 	x+=speed_x;
 }
+
+bool Bullet::intersect(object& object)
+{
+	return x <= object.x + object.width && x + width >= object.x && y <= object.y + object.height && y
+			+ height >= object.y;
+}

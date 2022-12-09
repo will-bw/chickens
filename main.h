@@ -15,7 +15,11 @@ static IMAGE player[2][4]; //我方小鸡的图片
 static IMAGE nums[5];//等级的图片
 static IMAGE im_bk;//背景图片
 static IMAGE im_boss;//boss图片
-static IMAGE im_bullet;//子弹图片
+static IMAGE im_myBullet;//子弹图片
+static IMAGE im_bossBullet;//子弹图片
+static IMAGE im_win;//胜利图片
+static IMAGE im_lose;//失败图片
+static IMAGE im_start;//开始界面
 static vector<EnemyChicken> enemys;//敌方小鸡
 static MyChicken me;//我方小鸡
 static Boss boss;//boss
@@ -37,3 +41,5 @@ void gameover();//结束处理
 void text_show();
 void bullet_show(MyChicken& me_chicken);
 void bullet_show(Boss& boss_bu);
+void shoot(MyChicken& mc);
+void shoot(Boss& b);

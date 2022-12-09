@@ -32,7 +32,6 @@ public:
 	}
 	void move();
 	void set_wh();
-	void shoot();
 public:
 	int life=MY_LIFE;
 	int score = 0;

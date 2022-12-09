@@ -21,6 +21,7 @@ public:
 	void move();
 	void shoot();
 	int cnt=0;//刷新次数，作为改变速度的依据
+	int shoot_cnt=0;//用于发射子弹
 	int speed_x;
 	int speed_y;
 	int life =BOSS_LIFE;

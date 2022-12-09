@@ -13,6 +13,7 @@ public:
 		this->speed_y=speed_y;
 	}
 	void move();
+	bool intersect(object& object);
 	int width;
 	int height;
 	double x;

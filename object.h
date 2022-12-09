@@ -6,7 +6,7 @@
 
 #define WIN_HEIGHT 800 //窗口高度
 #define WIN_WIDTH 1600   //窗口宽度
-#define BOSS_LIFE 30	//boss生命值
+#define BOSS_LIFE 5	//boss生命值
 #define MY_LIFE 10  //我的生命值
 #define BULLET_WIDTH 25
 #define BULLET_HEIGHT 25
